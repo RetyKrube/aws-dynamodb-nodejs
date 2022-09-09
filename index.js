@@ -41,7 +41,24 @@ function writeDynamoDB(dataJSON){
    var params = { RequestItems: dataJSON };
    db.batchWriteItem(params, function(err, data) {
       if (err) console.log(err, err.stack); // an error occurred
-      else     console.log(data);           // sucessful response
+      else console.log(data); // sucessful response
+      queryDynamoDB();
    });
 }
 
+function queryDynamoDB(){
+   // Query DynamoDB table using JSON data
+      var params = {
+         TableName: 'test-table', /* required */
+         IndexName: 'ProductCategory-Price-index',
+         KeyConditionExpression: 'ProductCategory = :c AND Price <= :p',
+         ExpressionAttributeValues: {
+            ':c': { "S": "Bike" },
+            ':p': { "N": "300" }
+         }
+   }
+   db.query(params, function(err, data) {
+      if (err) console.log(err, err.stack); // an error occurred
+      else console.log(data.Items); // successful response
+   });
+}
