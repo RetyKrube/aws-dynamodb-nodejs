@@ -24,7 +24,7 @@ db.listTables(function(err, data) {
 function downloadData(){
    // Get JSON file from S3
    var s3 = new AWS.S3();
-   var params = {Bucket: 'YOUR_BUCKET_NAME', Key: 'lab-data/test-table-items.json'};
+   var params = {Bucket: 'YOUR_BUCKET_NAME', Key: 'YOUR_FOLDER_NAME/YOUR_JSON_FILE'};
    s3.getObject(params, function(error, data) {
       if (error) {
          console.log(error); // error is Response.error
