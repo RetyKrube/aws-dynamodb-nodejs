@@ -31,6 +31,17 @@ function downloadData(){
       } else {
          var dataJSON = JSON.parse(data.Body);
          console.log(JSON.stringify(dataJSON));
+         writeDynamoDB(dataJSON);
       }
    });
 };
+
+function writeDynamoDB(dataJSON){
+   // Write items from object to DynamoDB
+   var params = { RequestItems: dataJSON };
+   db.batchWriteItem(params, function(err, data) {
+      if (err) console.log(err, err.stack); // an error occurred
+      else     console.log(data);           // sucessful response
+   });
+}
+
