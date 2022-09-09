@@ -17,5 +17,20 @@ db.listTables(function(err, data) {
    }
    else {
       console.log(data.TableNames);        // successful response 
+      downloadData();
    }
 });
+
+function downloadData(){
+   // Get JSON file from S3
+   var s3 = new AWS.S3();
+   var params = {Bucket: 'YOUR_BUCKET_NAME', Key: 'lab-data/test-table-items.json'};
+   s3.getObject(params, function(error, data) {
+      if (error) {
+         console.log(error); // error is Response.error
+      } else {
+         var dataJSON = JSON.parse(data.Body);
+         console.log(JSON.stringify(dataJSON));
+      }
+   });
+};
